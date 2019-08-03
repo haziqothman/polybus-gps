@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView,} from 'react-native';
+import React, { Component, Fragment, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ActivityIndicator} from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 import * as firebase from 'firebase';
@@ -33,43 +33,95 @@ const styles = StyleSheet.create({
   },
 });
 
-const marker = {
-  latlng: {
-    latitude: 3.095794,
-    longitude: 103.083738,
+export default class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {},
+      loading: true,
+    }
+  }
+
+  componentDidMount() {
+    firebase.database().ref().child('trackers').limitToLast(1).on('value', (response) => {
+      if (response) {
+        let words = response.val();
+        let newValue = {};
+
+        for (let word in words) {
+          newValue = Object.assign({
+            id: words[word].device_id,
+            latitude: words[word].latitude,
+            longitude: words[word].longitude,
+          })
+        }
+
+        this.setState({
+          data: newValue,
+          loading: false,
+        })
+      }
+    })
+  }
+
+  render() {
+    const { data, loading } = this.state;
+    console.log('Data', data);
+    if (loading) {
+      return (
+        <View>
+          <ActivityIndicator />
+        </View>
+      )
+    } else {
+      const { latitude, longitude } = data;
+      return (
+        <Fragment>
+          <SafeAreaView>
+            <View style={styles.container}>
+              <MapView
+                provider={PROVIDER_GOOGLE}
+                style={styles.map}
+                region={{
+                  latitude: latitude, // 3.095794,
+                  longitude: longitude, //</View>103.083738,
+                  latitudeDelta: 0.015,
+                  longitudeDelta: 0.0121,
+                }}
+              >
+                <Marker
+                  coordinate={{ latitude, longitude }}
+                  title={"BAS SANWA"}
+                  image={busIcon}
+                />
+              </MapView>
+            </View>
+          </SafeAreaView>
+        </Fragment>
+      );
+    }
+
   }
 }
 
-firebase.database().ref('trackers').limitToLast(1).on('value', (data) => {
-  console.log('Data', data.toJSON());
-})
 
-const HomeScreen = () => {
-  return (
-    <Fragment>
-      {/* <StatusBar barStyle="dark-content" /> */}
-      <SafeAreaView>
-        <View style={styles.container}>
-          <MapView
-            provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-            style={styles.map}
-            region={{
-              latitude: 3.095794, //37.78825, -122.4324
-              longitude: 103.083738,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-            }}
-          >
-            <Marker
-              coordinate={marker.latlng}
-              title={"BAS SANWA"}
-              image={busIcon}
-          />
-          </MapView>
-        </View>
-      </SafeAreaView>
-    </Fragment>
-  );
-};
 
-export default HomeScreen;
+// const HomeScreen = () => {
+//   const [data, setData] = useState({});
+
+//   // let data = {};
+
+  
+//   const { latitude, longitude } = data;
+//   const marker = {
+//     latlng: {
+//       latitude: latitude ? latitude : 3.095794,
+//       longitude: longitude ? longitude : 103.083738,
+//     }
+//   }
+//   console.log('Data1', data);
+
+
+// };
+
+// export default HomeScreen;
