@@ -1,4 +1,4 @@
-package polybusgps;
+package com.polybusgps;
 
 import android.app.Application;
 import android.util.Log;

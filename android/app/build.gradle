@@ -128,7 +128,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "polybusgps"
+        applicationId "com.polybusgps"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

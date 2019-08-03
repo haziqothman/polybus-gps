@@ -1,4 +1,4 @@
-package polybusgps;
+package com.polybusgps;
 
 import com.facebook.react.ReactActivity;
 
