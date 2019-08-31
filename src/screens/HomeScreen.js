@@ -1,127 +1,85 @@
-import React, { Component, Fragment, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ActivityIndicator} from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-
-import * as firebase from 'firebase';
-
-// Config Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyDb-MHYH3z8wtKf-oMqevKUAZRFQ2cg6xg",
-  authDomain: "polybus-gps.firebaseapp.com",
-  databaseURL: "https://polybus-gps.firebaseio.com",
-  projectId: "polybus-gps",
-  storageBucket: "",
-  messagingSenderId: "942603006584",
-  appId: "1:942603006584:web:0dbbdafa56c59063"
-}
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-const busIcon = require('../assets/images/bus-icon.png');
-
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    height: 800,
-    width: 800,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-});
-
+import React,{Component} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity,Image,ImageBackground} from 'react-native';
 export default class HomeScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {},
-      loading: true,
+    static navigationOptions = {
+        header: null,
     }
-  }
-
-  componentDidMount() {
-    firebase.database().ref().child('trackers').limitToLast(1).on('value', (response) => {
-      if (response) {
-        let words = response.val();
-        let newValue = {};
-
-        for (let word in words) {
-          newValue = Object.assign({
-            id: words[word].device_id,
-            latitude: words[word].latitude,
-            longitude: words[word].longitude,
-          })
-        }
-
-        this.setState({
-          data: newValue,
-          loading: false,
-        })
-      }
-    })
-  }
-
-  render() {
-    const { data, loading } = this.state;
-    console.log('Data', data);
-    if (loading) {
-      return (
-        <View>
-          <ActivityIndicator />
-        </View>
-      )
-    } else {
-      const { latitude, longitude } = data;
-      return (
-        <Fragment>
-          <SafeAreaView>
-            <View style={styles.container}>
-              <MapView
-                provider={PROVIDER_GOOGLE}
-                style={styles.map}
-                region={{
-                  latitude: latitude, // 3.095794,
-                  longitude: longitude, // 103.083738,
-                  latitudeDelta: 0.015,
-                  longitudeDelta: 0.0121,
-                }}
-              >
-                <Marker
-                  coordinate={{ latitude, longitude }}
-                  title={"BAS SANWA"}
-                  image={busIcon}
-                />
-              </MapView>
-            </View>
-          </SafeAreaView>
-        </Fragment>
-      );
+    render() {
+    return (
+      <ImageBackground source={require('../assets/images/city.jpg')} style={styles.backgroundcontainer}>
+        <Image
+          source={require('../assets/images/icon.png')}
+          style={{width: 100, height: 100}}
+        >
+        </Image>
+        <View style={{position: 'absolute',
+                            left: 0,
+                            right: 0,
+                            top: 12,
+                            bottom: 0}}>
+      <TouchableOpacity
+     onPress={() => this.props.navigation.navigate('Settings')}
+     >
+       <Image 
+       source = {require('../assets/images/gear.png')}
+       style={styles.imagestyle} 
+       />
+     </TouchableOpacity>
+     </View>
+        <Text style={styles.welcome}>PolyBusGps</Text>
+      <View style ={styles.btnContainer}>
+        <TouchableOpacity
+           style={styles.userBtn}
+           onPress={() => this.props.navigation.navigate('login1')}
+           >
+             <Text style={styles.btnTxt}>Student</Text>
+           </TouchableOpacity>
+            <TouchableOpacity 
+                style={styles.userBtn}
+                onPress={() => this.props.navigation.navigate('login')}
+            >
+              <Text style={styles.btnTxt}>Admin</Text>
+            </TouchableOpacity>
+           </View>
+           </ImageBackground>
+    
+    );
     }
-
-  }
 }
-
-
-
-// const HomeScreen = () => {
-//   const [data, setData] = useState({});
-
-//   // let data = {};
-
-  
-//   const { latitude, longitude } = data;
-//   const marker = {
-//     latlng: {
-//       latitude: latitude ? latitude : 3.095794,
-//       longitude: longitude ? longitude : 103.083738,
-//     }
-//   }
-//   console.log('Data1', data);
-
-
-// };
-
-// export default HomeScreen;
+  const styles = StyleSheet.create({
+    backgroundcontainer: {
+      flex: 1,
+        height:null,
+        width: null,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      welcome: {
+        fontSize: 30,
+        textAlign: 'center',
+        margin: 10,
+        color: 'white'
+      },
+      btnContainer: {
+        flexDirection: "column",
+        justifyContent: "center",
+        width: "90%",
+        marginBottom: 10,
+      },
+    imagestyle: {
+      height: 30,
+       width: 30,
+    },
+       userBtn: {
+         backgroundColor: "#FFD700",
+         padding: 15,
+         width: "95%",
+         marginBottom: 10,
+         borderRadius: 25,
+       },
+       
+         btnTxt: {
+           fontSize: 30,
+            textAlign: "center"
+         }
+  });

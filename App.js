@@ -1,8 +1,14 @@
-import {createBottomTabNavigator, createAppContainer} from 'react-navigation';
+import React from 'react';
+import {createStackNavigator, createAppContainer,} from 'react-navigation';
 import HomeScreen from './src/screens/HomeScreen';
+// import StudentScreen from './src/screens/StudentScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import LoginStudentScreen from './src/screens/LoginStudentScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
-
 import * as firebase from 'firebase';
+
+
+
 
 // // Config Firebase
 // const firebaseConfig = {
@@ -25,20 +31,24 @@ import * as firebase from 'firebase';
 //   console.log('Data', data.toJSON());
 // })
 
-
-const MainNavigator = createBottomTabNavigator({
-  Home: {
-    screen: HomeScreen,
+const Rootstack = createStackNavigator(
+  { 
+    Home: HomeScreen,
+    // Student: StudentScreen,
+    login: LoginScreen,
+    login1:LoginStudentScreen,
+    Settings:SettingsScreen,
   },
-  Setting: {screen: SettingsScreen},
-}, {
-  tabBarOptions: {
-    labelStyle: {
-      padding: 10,
-    },
+  {
+    initialRouteName: "Home"
   }
-});
+);
 
-const App = createAppContainer(MainNavigator);
 
-export default App;
+const AppContainer = createAppContainer(Rootstack);
+
+export default function App() {
+  return (
+   <AppContainer />
+  );
+  }
