@@ -25,6 +25,7 @@ import * as firebase from 'firebase';
 //   console.log('Data', data.toJSON());
 // })
 
+
 const MainNavigator = createBottomTabNavigator({
   Home: {
     screen: HomeScreen,
