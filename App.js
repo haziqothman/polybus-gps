@@ -5,6 +5,8 @@ import StudentScreen from './src/screens/StudentScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import LoginStudentScreen from './src/screens/LoginStudentScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
+import SignUpAdmin from './src/screens/SignUpAdmin';
 import * as firebase from 'firebase';
 
 
@@ -38,6 +40,8 @@ const Rootstack = createStackNavigator(
     login: LoginScreen,
     login1:LoginStudentScreen,
     Settings:SettingsScreen,
+    SignUp:SignUpScreen,
+    SignUp1:SignUpAdmin,
   },
   {
     initialRouteName: "Home"

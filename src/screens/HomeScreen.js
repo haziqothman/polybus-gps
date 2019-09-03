@@ -6,14 +6,14 @@ export default class HomeScreen extends Component {
     }
     render() {
     return (
-      <ImageBackground source={require('../assets/images/city.jpg')} style={styles.backgroundcontainer}>
+      <ImageBackground source={require('../assets/images/town.jpg')} style={styles.backgroundcontainer}>
         <Image
           source={require('../assets/images/icon.png')}
           style={{width: 100, height: 100}}
         >
         </Image>
         <View style={{position: 'absolute',
-                            left: 0,
+                            left: 10,
                             right: 0,
                             top: 12,
                             bottom: 0}}>

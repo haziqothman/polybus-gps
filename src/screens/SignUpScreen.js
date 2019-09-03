@@ -18,29 +18,28 @@ if (!firebase.apps.length) {
 }
 
 
-export default class LoginScreen extends Component {
+export default class SignUpScreen extends Component {
   
     static navigationOptions = {
-      title: 'LOG IN'
+      title: 'SignUp'
     }
     constructor(props) {
       super(props);
       this.state = {email:'',Password:'',loading:false};
     } 
-     OnLoginPress() { 
-       this.setState({error:'',loading:true});
-       
-       const{email, Password} = this.state;
-       firebase.auth().signInWithEmailAndPassword(email,Password)
-       .then(() => {
-         this.setState({error:'',});
-         this.props.navigation.navigate('Student');
-       })
-       .catch(() =>{
-         this.setState({error:'Authentication Failed',loading:false});
-       })
-      }
-      
+     
+      OnSignUpPress() { 
+        this.setState({error:'',loading:true});
+        const{email, Password} = this.state;
+        firebase.auth().createUserWithEmailAndPassword(email,Password)
+        .then(() => {
+          this.setState({error:'',});
+          this.props.navigation.navigate('login1');
+        })
+        .catch(() =>{
+          this.setState({error:'Authentication Failed',loading:false});
+        })
+       }
 
        renderButtonOrLoading() {
          
@@ -48,16 +47,10 @@ export default class LoginScreen extends Component {
          <View style ={styles.btnContainer}>
         <TouchableOpacity
            style={styles.userBtn}
-           onPress={this.OnLoginPress.bind(this)}
+           onPress={this.OnSignUpPress.bind(this)}
            >
-             <Text style={styles.btnTxt}>Login</Text>
+             <Text style={styles.btnTxt}>SignUp</Text>
            </TouchableOpacity>
-            <TouchableOpacity 
-                style={styles.userBtn}
-                onPress={() => this.props.navigation.navigate('SignUp1')}
-            >
-              <Text style={styles.btnTxt}>Sign Up</Text>
-            </TouchableOpacity>
           </View>
          )
         }
@@ -65,7 +58,7 @@ export default class LoginScreen extends Component {
       return (
 
         <ImageBackground source={require('../assets/images/town2.jpg')} style={styles.backgroundcontainer}>
-          <Text style={{ fontSize: 30,textAlign: 'center',margin: 10,}}>Admin Login</Text> 
+          <Text style={{ fontSize: 30,textAlign: 'center',margin: 10,}}>SIGN UP</Text> 
           <TextInput
           style={styles.input}
           value={this.state.email}
@@ -97,6 +90,7 @@ export default class LoginScreen extends Component {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "90%",
+    justifyContent: "center",
     
   },
    userBtn: {

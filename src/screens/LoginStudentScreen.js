@@ -40,18 +40,7 @@ export default class LoginScreen extends Component {
          this.setState({error:'Authentication Failed',loading:false});
        })
       }
-      OnSignUpPress() { 
-        this.setState({error:'',loading:true});
-        const{email, Password} = this.state;
-        firebase.auth().createUserWithEmailAndPassword(email,Password)
-        .then(() => {
-          this.setState({error:'',});
-          this.props.navigation.navigate('');
-        })
-        .catch(() =>{
-          this.setState({error:'Authentication Failed',loading:false});
-        })
-       }
+      
 
        renderButtonOrLoading() {
          
@@ -65,7 +54,7 @@ export default class LoginScreen extends Component {
            </TouchableOpacity>
             <TouchableOpacity 
                 style={styles.userBtn}
-                onPress={this.OnSignUpPress.bind(this)}
+                onPress={() => this.props.navigation.navigate('SignUp')}
             >
               <Text style={styles.btnTxt}>Sign Up</Text>
             </TouchableOpacity>
@@ -75,7 +64,7 @@ export default class LoginScreen extends Component {
     render() {
       return (
 
-        <ImageBackground source={require('../assets/images/city.jpg')} style={styles.backgroundcontainer}>
+        <ImageBackground source={require('../assets/images/town2.jpg')} style={styles.backgroundcontainer}>
           <Text style={{ fontSize: 30,textAlign: 'center',margin: 10,}}>Student Login</Text> 
           <TextInput
           style={styles.input}
