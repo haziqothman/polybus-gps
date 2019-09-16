@@ -62,7 +62,7 @@ export default class SignUpScreen extends Component {
           <TextInput
           style={styles.input}
           value={this.state.email}
-          placeholder="Username"
+          placeholder="Email"
           onChangeText={email => this.setState({email})}
           />
           <TextInput

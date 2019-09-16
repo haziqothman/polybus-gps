@@ -7,6 +7,7 @@ import LoginStudentScreen from './src/screens/LoginStudentScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SignUpAdmin from './src/screens/SignUpAdmin';
+//import CurrentLocationButton from './src/screens/CurrentLocationButton';
 import * as firebase from 'firebase';
 
 
@@ -42,6 +43,7 @@ const Rootstack = createStackNavigator(
     Settings:SettingsScreen,
     SignUp:SignUpScreen,
     SignUp1:SignUpAdmin,
+   // CurrentLocationButton:CurrentLocationButton ,
   },
   {
     initialRouteName: "Home"
