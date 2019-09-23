@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.polybusgps">
+  package="com.polybus">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -22,8 +22,8 @@
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <meta-data
-       android:name="com.google.android.geo.API_KEY"
-       android:value="AIzaSyA_NEPFTgHnR6H-Vll7KQ1MQQ6DfJCuHwQ"/>
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyA_NEPFTgHnR6H-Vll7KQ1MQQ6DfJCuHwQ"/>
     </application>
 
 </manifest>

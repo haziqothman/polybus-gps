@@ -32,7 +32,7 @@ export default class LoginScreen extends Component {
 
   OnLoginPress() { 
     const{ email, Password } = this.state;
-    this.setState({ loading:true });
+    this.setState({ loading: true });
 
     firebase.auth().signInWithEmailAndPassword(email, Password)
     .then((response) => {
@@ -66,8 +66,9 @@ export default class LoginScreen extends Component {
   }
   
   render() {
-    return (
+    const { loading } = this.state;
 
+    if (loading) {
       <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
         <Image 
                 source = {require('../assets/images/admin.png')}
@@ -95,8 +96,57 @@ export default class LoginScreen extends Component {
         onChangeText={Password => this.setState({Password})}
         />
         <Text>{this.state.error}</Text>
-        {this.renderButtonOrLoading()}
-      </ImageBackground>
+          <View style ={styles.btnContainer}>
+            <TouchableOpacity
+            style={styles.userBtn}
+            onPress={this.OnLoginPress.bind(this)}
+            >
+            <Text style={styles.btnTxt}>Login</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.userBtn}
+              onPress={() => this.props.navigation.navigate('SignUp1')}
+            >
+              <Text style={styles.btnTxt}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+    }
+
+    return (
+      <ImageBackground source={require('../assets/images/town2.jpg')} style={styles.backgroundcontainer}>
+        <Text style={{ fontSize: 30,textAlign: 'center',margin: 10,}}>Admin Login</Text> 
+        <TextInput
+        style={styles.input}
+        value={this.state.email}
+        placeholder="Email"
+        onChangeText={email => this.setState({email})}
+        />
+        <TextInput
+        style={styles.input}
+        value={this.state.Password}
+        placeholder="Password"
+        secureTextEntry
+        onChangeText={Password => this.setState({Password})}
+        />
+        <Text>{this.state.error}</Text>
+          <View style ={styles.btnContainer}>
+            <TouchableOpacity
+            style={styles.userBtn}
+            onPress={this.OnLoginPress.bind(this)}
+            >
+            <Text style={styles.btnTxt}>Login</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.userBtn}
+              onPress={() => this.props.navigation.navigate('SignUp1')}
+            >
+              <Text style={styles.btnTxt}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
     );
   }
 }

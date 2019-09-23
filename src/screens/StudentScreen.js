@@ -28,15 +28,14 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const busIcon = require('../assets/images/bus-icon.png');
-const centerIcon = require('../assets/images/center2.jpg');
+// const centerIcon = require('../assets/images/center2.jpg');
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    height: 800,
-    width: 800,
+    flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
@@ -90,7 +89,24 @@ imagestyle: {
   },
 });
 
-class HomeScreen extends Component {
+class LogoTitle extends React.Component {
+  render() {
+    return (
+      <Image
+        source={require('../assets/images/gear.png')}
+        style={{ width: 20, height: 20 }}
+      />
+    );
+  }
+}
+
+export default class HomeScreen extends Component {
+  static navigationOptions = {
+    // headerTitle instead of title
+    headerTitle: <LogoTitle />,
+    style: {{ flex: 1, justifyContent: 'flex-end'}}
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -121,21 +137,21 @@ class HomeScreen extends Component {
     })
   }
 
-  centerMap() {
-    const { 
-      latitude, 
-      longitude, 
-      latitudeDelta, 
-      longitudeDelta,
-    } = this.state.data;
+  // centerMap() {
+  //   const { 
+  //     latitude, 
+  //     longitude, 
+  //     latitudeDelta, 
+  //     longitudeDelta,
+  //   } = this.state.data;
 
-    this.map.animatetoRegion({
-      latitude,
-      longitude,
-      latitudeDelta,
-      longitudeDelta,
-    })
-  }
+  //   this.map.animatetoRegion({
+  //     latitude,
+  //     longitude,
+  //     latitudeDelta,
+  //     longitudeDelta,
+  //   })
+  // }
 
   render() {
     const { data, loading } = this.state;
@@ -154,7 +170,19 @@ class HomeScreen extends Component {
         <Fragment>
           <SafeAreaView>
             <View style={styles.container}>
-              <CurrentLocationButton/>
+              {/* <CurrentLocationButton /> */}
+              {/* <View style={[styles.container2, {top: HEIGHT - bottom}]}>
+                <Image
+                  style={{width: 50, height: 50}}
+                  source={centerIcon}
+                />
+                <MaterialIcons 
+                    // name="my-location" 
+                    // color="#000000"
+                    // size={25}
+                    // onPress= {() => {cb()}}
+                />
+              </View> */}
               <MapView
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}

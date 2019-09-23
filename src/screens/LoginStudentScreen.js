@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image,ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput,ImageBackground, ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'firebase';
 
 const firebaseConfig = {
@@ -19,49 +20,97 @@ if (!firebase.apps.length) {
 
 
 export default class LoginScreen extends Component {
-  
     static navigationOptions = {
-      title: 'Student LogIn'
+      title: 'Log In'
     }
+
     constructor(props) {
       super(props);
-      this.state = {email:'',Password:'',loading:false};
-    } 
-     OnLoginPress() { 
-       this.setState({error:'',loading:true});
-       
-       const{email, Password} = this.state;
-       firebase.auth().signInWithEmailAndPassword(email,Password)
-       .then(() => {
-         this.setState({error:'',});
-         this.props.navigation.navigate('Student');
-       })
-       .catch(() =>{
-         this.setState({error:'Authentication Failed',loading:false});
-       })
+      this.state = {
+        email: '',
+        Password: '',
+        loading: true,
+      };
+    }
+
+    componentDidMount() {
+      const user = this.getUser();
+
+      if (user !== null) {
+        this.props.navigation.navigate('Student');
       }
+    }
+    
+    storeUser = async (email, Password) => {
+      try {
+        await AsyncStorage.setItem('user', { email, Password});
+      } catch (e) {
+        // saving error
+        this.setState({ error: 'storing user failed'});
+      }
+    }
+
+    getUser = async () => {
+      try {
+        const value = await AsyncStorage.getItem('user')
+        if (value !== null) {
+          return value;
+        }
+      } catch(e) {
+        this.setState({ error: 'getting user failed'});
+        return null;
+      }
+    }
+
+    OnLoginPress() { 
+      this.setState({ error: '', loading: true });
+      
+      const{ email, Password } = this.state;
+      firebase.auth().signInWithEmailAndPassword(email, Password)
+        .then((response) => {
+          this.storeData(email, Password);
+          // this.props.navigation.navigate('Student');
+        })
+        .catch((error) =>{
+          if (error.code === 'auth/user-not-found') {
+            return this.setState({ error: 'This email not found', loading: false });
+          }
+          
+          return this.setState({ error: 'Authentication failed', loading: false });
+        })
+    }
       
 
-       renderButtonOrLoading() {
-         
-         return (
-         <View style ={styles.btnContainer}>
-        <TouchableOpacity
-           style={styles.userBtn}
-           onPress={this.OnLoginPress.bind(this)}
-           >
-             <Text style={styles.btnTxt}>Login</Text>
-           </TouchableOpacity>
-            <TouchableOpacity 
-                style={styles.userBtn}
-                onPress={() => this.props.navigation.navigate('SignUp')}
-            >
-              <Text style={styles.btnTxt}>Sign Up</Text>
-            </TouchableOpacity>
-          </View>
-         )
-        }
+    // renderButtonOrLoading() {
+    //     return (
+    //     <View style ={styles.btnContainer}>
+    //       <TouchableOpacity
+    //         style={styles.userBtn}
+    //         onPress={this.OnLoginPress.bind(this)}
+    //       >
+    //         <Text style={styles.btnTxt}>Login</Text>
+    //       </TouchableOpacity>
+    //       <TouchableOpacity 
+    //         style={styles.userBtn}
+    //         onPress={() => this.props.navigation.navigate('SignUp')}
+    //       >
+    //         <Text style={styles.btnTxt}>Sign Up</Text>
+    //       </TouchableOpacity>
+    //     </View>
+    //     );
+    // }
+
     render() {
+      const { loading } = this.state;
+
+      if (loading) {
+        return (
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        );
+      }
+
       return (
 
         <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
@@ -78,20 +127,33 @@ export default class LoginScreen extends Component {
           </View>
           <Text style={{ fontSize: 30,textAlign: 'center',margin: 10,}}>Student Login</Text> 
           <TextInput
-          style={styles.input}
-          value={this.state.email}
-          placeholder="Email"
-          onChangeText={email => this.setState({email})}
+            style={styles.input}
+            value={this.state.email}
+            placeholder="Email"
+            onChangeText={email => this.setState({ email })}
           />
           <TextInput
-          style={styles.input}
-          value={this.state.Password}
-          placeholder="Password"
-          secureTextEntry
-          onChangeText={Password => this.setState({Password})}
+            style={styles.input}
+            value={this.state.Password}
+            placeholder="Password"
+            secureTextEntry
+            onChangeText={Password => this.setState({ Password })}
           />
           <Text>{this.state.error}</Text>
-          {this.renderButtonOrLoading()}
+          <View style ={styles.btnContainer}>
+            <TouchableOpacity
+              style={styles.userBtn}
+              onPress={this.OnLoginPress.bind(this)}
+            >
+              <Text style={styles.btnTxt}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.userBtn}
+              onPress={() => this.props.navigation.navigate('SignUp')}
+            >
+              <Text style={styles.btnTxt}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
         </ImageBackground>
       );
     }
@@ -104,19 +166,19 @@ export default class LoginScreen extends Component {
         alignItems: 'center',
         justifyContent: 'center',
       },
-  btnContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
-    
-  },
-   userBtn: {
-     backgroundColor: "#FFD700",
-     padding: 15,
-     width: "45%",
-     borderRadius: 25,
-     
-   },
+      btnContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "90%",
+        
+      },
+      userBtn: {
+        backgroundColor: "#FFD700",
+        padding: 15,
+        width: "45%",
+        borderRadius: 25,
+        
+      },
      btnTxt: {
        fontSize: 18,
         textAlign: "center"

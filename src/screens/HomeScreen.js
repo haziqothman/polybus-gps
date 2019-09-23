@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Image,ImageBackground} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
 export default class HomeScreen extends Component {
     static navigationOptions = {
         header: null,
@@ -12,36 +12,35 @@ export default class HomeScreen extends Component {
           style={{width: 100, height: 100}}
         >
         </Image>
-        <View style={{position: 'absolute',
-                            left: 10,
-                            right: 0,
-                            top: 12,
-                            bottom: 0}}>
-      <TouchableOpacity
-     onPress={() => this.props.navigation.navigate('Settings')}
-     >
-       <Image 
-       source = {require('../assets/images/gear.png')}
-       style={styles.imagestyle} 
-       />
-     </TouchableOpacity>
-     </View>
+
+        <View style={{position: 'absolute', left: 10, right: 0, top: 12, bottom: 0}}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('Settings')}
+          >
+          <Image 
+            source = {require('../assets/images/gear.png')}
+            style={styles.imagestyle} 
+          />
+          </TouchableOpacity>
+        </View>
+
         <Text style={styles.welcome}>PolyBusGps</Text>
-      <View style ={styles.btnContainer}>
-        <TouchableOpacity
-           style={styles.userBtn}
-           onPress={() => this.props.navigation.navigate('login1')}
-           >
-             <Text style={styles.btnTxt}>Student</Text>
-           </TouchableOpacity>
-            <TouchableOpacity 
-                style={styles.userBtn}
-                onPress={() => this.props.navigation.navigate('login')}
+
+        <View style ={styles.btnContainer}>
+          <TouchableOpacity
+            style={styles.userBtn}
+            onPress={() => this.props.navigation.navigate('login1')}
             >
-              <Text style={styles.btnTxt}>Admin</Text>
-            </TouchableOpacity>
-           </View>
-           </ImageBackground>
+            <Text style={styles.btnTxt}>Student</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.userBtn}
+            onPress={() => this.props.navigation.navigate('login')}
+            >
+            <Text style={styles.btnTxt}>Admin</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     
     );
     }
@@ -68,7 +67,7 @@ export default class HomeScreen extends Component {
       },
     imagestyle: {
       height: 30,
-       width: 30,
+      width: 30,
     },
        userBtn: {
          backgroundColor: "#FFD700",
