@@ -121,19 +121,6 @@ export default class HomeScreen extends Component {
         <Fragment>
           <SafeAreaView>
             <View style={styles.container}>
-              {/* <CurrentLocationButton /> */}
-              <View style={[styles.container2, {top: HEIGHT - bottom}]}>
-                <Image
-                  style={{width: 50, height: 50}}
-                  source={centerIcon}
-                />
-                {/* <MaterialIcons 
-                    // name="my-location" 
-                    // color="#000000"
-                    // size={25}
-                    // onPress= {() => {cb()}}
-                /> */}
-              </View>
               <MapView
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}

@@ -37,8 +37,8 @@ export default class LoginScreen extends Component {
     firebase.auth().signInWithEmailAndPassword(email, Password)
     .then((response) => {
       console.log('Response Here:', response);
-    //  this.setState({error:'',});
-    //  this.props.navigation.navigate('Student');
+        this.setState({error:'',});
+        this.props.navigation.navigate('Admin');
     })
     .catch(() =>{
       this.setState({error:'Authentication Failed',loading:false});
