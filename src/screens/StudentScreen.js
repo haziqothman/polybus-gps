@@ -1,16 +1,18 @@
-import React, { Component, Fragment, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ActivityIndicator, Dimensions, Image,ImageBackground } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  Alert,
+} from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import {CurrentLocationButton} from '../components/CurrentLocationButton'
-
-// import HomeScreen from './src/screens/HomeScreen';
-// import StudentScreen from './src/screens/StudentScreen';
-// import LoginScreen from './src/screens/LoginScreen';
-// import LoginStudentScreen from './src/screens/LoginStudentScreen';
-// import SettingsScreen from './src/screens/SettingsScreen';
-// import { CurrentLocationButton  from './CurrentLocationButton';
+import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as firebase from 'firebase';
 
 // Config Firebase
@@ -35,25 +37,12 @@ const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    flex: 1,
+    // height: 300,
+    // width: 300,
+    // flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  container2 : {
-    zIndex: 9,
-    position: 'absolute',
-    width: 85,
-    height: 85,
-    backgroundColor: '#fff',
-    left: WIDTH-70,
-    borderRadius: 50,
-    shadowColor: '#000000',
-    elevation: 7,
-    shadowRadius: 5,
-    shadowOpacity: 1.0,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-},
   map: {
     ...StyleSheet.absoluteFillObject,
   },
@@ -89,23 +78,31 @@ imagestyle: {
   },
 });
 
-class LogoTitle extends React.Component {
-  render() {
-    return (
-      <Image
-        source={require('../assets/images/gear.png')}
-        style={{ width: 20, height: 20 }}
-      />
-    );
-  }
+const handleLogout = async () => {
+
 }
 
 export default class HomeScreen extends Component {
-  static navigationOptions = {
-    // headerTitle instead of title
-    headerTitle: <LogoTitle />,
-    style: {{ flex: 1, justifyContent: 'flex-end'}}
-  };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Bas Location',
+      headerRight: (
+        <Icon
+          name="logout"
+          size={20}
+          color="black"
+          style={{ paddingRight: 10 }}
+          onPress={async () => {
+            try {
+              await AsyncStorage.removeItem('user')
+              navigation.navigate('login1');
+            } catch(e) {
+              console.log('Opss', e);
+            }
+          }}/>
+      ),
+    }
+  }
 
   constructor(props) {
     super(props);
@@ -137,52 +134,26 @@ export default class HomeScreen extends Component {
     })
   }
 
-  // centerMap() {
-  //   const { 
-  //     latitude, 
-  //     longitude, 
-  //     latitudeDelta, 
-  //     longitudeDelta,
-  //   } = this.state.data;
-
-  //   this.map.animatetoRegion({
-  //     latitude,
-  //     longitude,
-  //     latitudeDelta,
-  //     longitudeDelta,
-  //   })
-  // }
-
   render() {
     const { data, loading } = this.state;
-    // const cb = props.cb ? props.cb :() => console.log('Callback function not passed to CurretLocationButton!');
-    const bottom = 65;
-    console.log('Data', data);
+    const { latitude, longitude } = data;
+
     if (loading) {
       return (
-        <View>
-          <ActivityIndicator />
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" color="#0000ff" />
         </View>
       )
-    } else {
-      const { latitude, longitude } = data;
-      return (
-        <Fragment>
-          <SafeAreaView>
-            <View style={styles.container}>
-              {/* <CurrentLocationButton /> */}
-              {/* <View style={[styles.container2, {top: HEIGHT - bottom}]}>
-                <Image
-                  style={{width: 50, height: 50}}
-                  source={centerIcon}
-                />
-                <MaterialIcons 
-                    // name="my-location" 
-                    // color="#000000"
-                    // size={25}
-                    // onPress= {() => {cb()}}
-                />
-              </View> */}
+    }
+
+    return (
+      <Fragment>
+        <SafeAreaView>
+          <View style={styles.container}>
+            <View style={{ flex: 1 }}>
+              <Text>Test</Text>
+            </View>
+            <View style={{ ...StyleSheet.absoluteFillObject, marginTop: 20, height: 400, width: 400 }}>
               <MapView
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
@@ -204,29 +175,9 @@ export default class HomeScreen extends Component {
                 />
               </MapView>
             </View>
-          </SafeAreaView>
-        </Fragment>
-      );
-    }
-
-  }
-}
-class SettingsScreen extends React.Component {
-   render() {
-    return (
-      <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
-        <View style ={styles.btnContainer}>
-        <TouchableOpacity
-           style={styles.userBtn}
-           onPress={() => this.props.navigation.navigate('ListItem')}
-           >
-             <Image 
-        source = {require('../assets/images/taxi-driver.png')}
-        style={styles.imagestyle} />
-             <Text style={styles.btnTxt}>Driver Info</Text>
-           </TouchableOpacity>
-           </View>
-           </ImageBackground>
+          </View>
+        </SafeAreaView>
+      </Fragment>
     );
   }
 }
@@ -235,25 +186,5 @@ const TabNavigator = createBottomTabNavigator({
   DriverInfo: SettingsScreen,
 });
 
-export default createAppContainer(TabNavigator);
-
-
-// const HomeScreen = () => {
-//   const [data, setData] = useState({});
-
-//   // let data = {};
-
-  
-//   const { latitude, longitude } = data;
-//   const marker = {
-//     latlng: {
-//       latitude: latitude ? latitude : 3.095794,
-//       longitude: longitude ? longitude : 103.083738,
-//     }
-//   }
-//   console.log('Data1', data);
-
-
-// };
-
-// export default HomeScreen;
+  }
+};
