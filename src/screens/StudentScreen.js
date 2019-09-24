@@ -95,7 +95,7 @@ export default class HomeScreen extends Component {
           onPress={async () => {
             try {
               await AsyncStorage.removeItem('user')
-              navigation.navigate('login1');
+              return navigation.navigate('login1');
             } catch(e) {
               console.log('Opss', e);
             }

@@ -37,13 +37,16 @@ export default class LoginScreen extends Component {
       const user = this.getUser();
 
       if (user !== null) {
-        this.props.navigation.navigate('Student');
+        return this.props.navigation.navigate('Student');
       }
+
+      return this.setState({ loading: false });
     }
     
     storeUser = async (email, Password) => {
+      console.log('masuk sini');
       try {
-        await AsyncStorage.setItem('user', { email, Password});
+        await AsyncStorage.setItem('user', email);
       } catch (e) {
         // saving error
         this.setState({ error: 'storing user failed'});
@@ -52,10 +55,8 @@ export default class LoginScreen extends Component {
 
     getUser = async () => {
       try {
-        const value = await AsyncStorage.getItem('user')
-        if (value !== null) {
-          return value;
-        }
+        const value = await AsyncStorage.getItem('user');
+        return value;
       } catch(e) {
         this.setState({ error: 'getting user failed'});
         return null;
@@ -67,13 +68,21 @@ export default class LoginScreen extends Component {
       
       const{ email, Password } = this.state;
       firebase.auth().signInWithEmailAndPassword(email, Password)
-        .then((response) => {
-          this.storeData(email, Password);
-          // this.props.navigation.navigate('Student');
+        .then(async (response) => {
+          const { operationType } = response;
+          if (operationType === 'signIn') {
+            await this.storeUser(email, Password);
+            this.props.navigation.navigate('Student');
+          }
         })
         .catch((error) =>{
+          console.log(error);
           if (error.code === 'auth/user-not-found') {
             return this.setState({ error: 'This email not found', loading: false });
+          }
+
+          if (error.code === 'auth/wrong-password') {
+            return this.setState({ error: 'Invalid password', loading: false });
           }
           
           return this.setState({ error: 'Authentication failed', loading: false });
