@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput,ImageBackground, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'firebase';
+import { getActiveChildNavigationOptions } from 'react-navigation';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDb-MHYH3z8wtKf-oMqevKUAZRFQ2cg6xg",
@@ -29,24 +30,35 @@ export default class LoginScreen extends Component {
       this.state = {
         email: '',
         Password: '',
-        loading: true,
+        loading: false,
       };
     }
 
-    componentDidMount() {
-      const user = this.getUser();
+    componentDidMount () {
+      return this.getLogin();
+    }
 
-      if (user !== null) {
+    componentWillUnmount () {
+      return this.setState({ loading: false });
+    }
+
+    getLogin = async () => {
+      this.setState({ loading: true });
+      const user = await this.getUser();
+
+      console.log('GET USER:', user);
+
+      if (user) {
+        // this.setState({ loading: false });
         return this.props.navigation.navigate('Student');
       }
-
+      
       return this.setState({ loading: false });
     }
     
-    storeUser = async (email, Password) => {
-      console.log('masuk sini');
+    storeUser = async (email) => {
       try {
-        await AsyncStorage.setItem('user', email);
+        return AsyncStorage.setItem('user', email);
       } catch (e) {
         // saving error
         this.setState({ error: 'storing user failed'});
@@ -56,6 +68,7 @@ export default class LoginScreen extends Component {
     getUser = async () => {
       try {
         const value = await AsyncStorage.getItem('user');
+        console.log('Valuee dalam getUser:', value);
         return value;
       } catch(e) {
         this.setState({ error: 'getting user failed'});
@@ -71,7 +84,9 @@ export default class LoginScreen extends Component {
         .then(async (response) => {
           const { operationType } = response;
           if (operationType === 'signIn') {
-            await this.storeUser(email, Password);
+            await this.storeUser(email);
+            const User = await this.getUser();
+            console.log('Stored user:', User);
             this.props.navigation.navigate('Student');
           }
         })

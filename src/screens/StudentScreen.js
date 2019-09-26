@@ -95,7 +95,7 @@ export default class HomeScreen extends Component {
           onPress={async () => {
             try {
               await AsyncStorage.removeItem('user')
-              return navigation.navigate('login1');
+              return navigation.navigate('Home');
             } catch(e) {
               console.log('Opss', e);
             }
@@ -150,10 +150,7 @@ export default class HomeScreen extends Component {
       <Fragment>
         <SafeAreaView>
           <View style={styles.container}>
-            <View style={{ flex: 1 }}>
-              <Text>Test</Text>
-            </View>
-            <View style={{ ...StyleSheet.absoluteFillObject, marginTop: 20, height: 400, width: 400 }}>
+            <View style={{ ...StyleSheet.absoluteFillObject, height: HEIGHT, width: WIDTH }}>
               <MapView
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
