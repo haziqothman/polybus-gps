@@ -1,6 +1,9 @@
 import React, { Component, Fragment, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ActivityIndicator, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ActivityIndicator, Dimensions, Image,ImageBackground } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import { createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import {CurrentLocationButton} from '../components/CurrentLocationButton'
 
 // import HomeScreen from './src/screens/HomeScreen';
 // import StudentScreen from './src/screens/StudentScreen';
@@ -55,9 +58,39 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  backgroundcontainer: {
+    flex: 1,
+      height:null,
+      width: null,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+userBtn: {
+  backgroundColor: "#FFD700",
+  padding: 15,
+  width: "95%",
+  marginBottom: 10,
+  borderRadius: 25,
+},
+
+  btnTxt: {
+    fontSize: 30,
+     textAlign: "center"
+},
+btnContainer: {
+  flexDirection: "column",
+  justifyContent: "center",
+  width: "40%",
+  marginBottom: 10,
+},
+imagestyle: {
+  height: 70,
+   width: 70,
+   justifyContent: "center",
+  },
 });
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -121,6 +154,7 @@ export default class HomeScreen extends Component {
         <Fragment>
           <SafeAreaView>
             <View style={styles.container}>
+              <CurrentLocationButton/>
               <MapView
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
@@ -149,7 +183,31 @@ export default class HomeScreen extends Component {
 
   }
 }
+class SettingsScreen extends React.Component {
+   render() {
+    return (
+      <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
+        <View style ={styles.btnContainer}>
+        <TouchableOpacity
+           style={styles.userBtn}
+           onPress={() => this.props.navigation.navigate('ListItem')}
+           >
+             <Image 
+        source = {require('../assets/images/taxi-driver.png')}
+        style={styles.imagestyle} />
+             <Text style={styles.btnTxt}>Driver Info</Text>
+           </TouchableOpacity>
+           </View>
+           </ImageBackground>
+    );
+  }
+}
+const TabNavigator = createBottomTabNavigator({
+  Home: HomeScreen,
+  Settings: SettingsScreen,
+});
 
+export default createAppContainer(TabNavigator);
 
 
 // const HomeScreen = () => {

@@ -6,14 +6,14 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 class HomeScreen extends React.Component {
   render() {
     return (
-      <ImageBackground source={require('../assets/images/town.jpg')} style={styles.backgroundcontainer}>
+      <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
         <View style ={styles.btnContainer}>
         <TouchableOpacity
            style={styles.userBtn}
            onPress={() => this.props.navigation.navigate('Student')}
            >
              <Image 
-        source = {require('../assets/images/gear.png')}
+        source = {require('../assets/images/tracker.png')}
         style={styles.imagestyle} />
         <View style={{position: 'absolute',
                             left: 200,
@@ -27,7 +27,7 @@ class HomeScreen extends React.Component {
                 onPress={() => this.props.navigation.navigate('AssignDriver')}
             >
               <Image 
-        source = {require('../assets/images/gear.png')}
+        source = {require('../assets/images/assign.png')}
         style={styles.imagestyle} />
               <Text style={styles.btnTxt}>Assign</Text>
             </TouchableOpacity>
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   imagestyle: {
     height: 70,
      width: 70,
+     justifyContent: "center",
     },
     welcome: {
       fontSize: 30,
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     btnContainer: {
       flexDirection: "column",
       justifyContent: "center",
-      width: "90%",
+      width: "40%",
       marginBottom: 10,
   },
      userBtn: {

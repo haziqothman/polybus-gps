@@ -64,7 +64,7 @@ export default class LoginScreen extends Component {
     render() {
       return (
 
-        <ImageBackground source={require('../assets/images/town2.jpg')} style={styles.backgroundcontainer}>
+        <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
           <Text style={{ fontSize: 30,textAlign: 'center',margin: 10,}}>Student Login</Text> 
           <TextInput
           style={styles.input}

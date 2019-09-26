@@ -5,9 +5,11 @@ import {
   TouchableHighlight,
   StyleSheet,
   TextInput,
-  AlertIOS
+  ImageBackground,
+  Alert
 } from 'react-native';
 import firebase from 'firebase';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDb-MHYH3z8wtKf-oMqevKUAZRFQ2cg6xg",
@@ -47,17 +49,17 @@ export default class AddItem extends Component {
   };
   handleSubmit = () => {
     addItem(this.state.name);
-    addItem(this.state.age);
-    addItem(this.state.name);
+    Alert.alert(
+      'Item saved successfully'
 
-  };
+    )};
+
 
   render() {
     return (
+      <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
       <View style={styles.main}>
-        <Text style={styles.title}>Add Item</Text>
-        <TextInput style={styles.itemInput} onChange={this.handleChange} />
-        <TextInput style={styles.itemInput} onChange={this.handleChange} />
+        <Text style={styles.title}>Assign Driver</Text>
         <TextInput style={styles.itemInput} onChange={this.handleChange} />
         <TouchableHighlight
           style={styles.button}
@@ -67,6 +69,7 @@ export default class AddItem extends Component {
           <Text style={styles.buttonText}>Add</Text>
         </TouchableHighlight>
       </View>
+      </ImageBackground>
     );
   }
 }
@@ -77,8 +80,14 @@ const styles = StyleSheet.create({
     padding: 30,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: '#6565fc'
   },
+  backgroundcontainer: {
+    flex: 1,
+      height:null,
+      width: null,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
   title: {
     marginBottom: 20,
     fontSize: 25,
