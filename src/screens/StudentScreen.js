@@ -161,8 +161,8 @@ export default class HomeScreen extends Component {
                 region={{
                   latitude: latitude, // 3.095794,
                   longitude: longitude, // 103.083738,
-                  latitudeDelta: 0.015,
-                  longitudeDelta: 0.0121,
+                  latitudeDelta: 0.015/2,
+                  longitudeDelta: 0.0121/2,
                 }}
               >
                 <Marker
