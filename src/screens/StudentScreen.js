@@ -203,8 +203,8 @@ class SettingsScreen extends React.Component {
   }
 }
 const TabNavigator = createBottomTabNavigator({
-  Home: HomeScreen,
-  Settings: SettingsScreen,
+  Location: HomeScreen,
+  DriverInfo: SettingsScreen,
 });
 
 export default createAppContainer(TabNavigator);

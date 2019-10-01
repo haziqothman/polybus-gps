@@ -8,7 +8,7 @@ export default class SettingsScreen extends React.Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Text>Version Setting</Text>
+          <Text>Hello Setting</Text>
           </View>
 
         <View>
@@ -26,17 +26,18 @@ export default class SettingsScreen extends React.Component {
   }
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
-    backgroundColor: '#259B9B',
+    backgroundColor: '#fff',
   },
   container2: {
     flex: 1,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor: '#09F3F3',
+    backgroundColor: '#00FFFF',
     height: 611,
     width: 359,
   },

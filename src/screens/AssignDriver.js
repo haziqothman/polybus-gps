@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TextInput,
   ImageBackground,
-  Alert
+  Alert,
+  Image
 } from 'react-native';
 import firebase from 'firebase';
 
@@ -58,9 +59,21 @@ export default class AddItem extends Component {
   render() {
     return (
       <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
-      <View style={styles.main}>
+      <Image 
+        source = {require('../assets/images/assign.png')}
+        style={{width: 100, height:100}}
+        >
+        </Image>
+        <View style={{position: 'absolute',
+                            left: 20,
+                            right: 0,
+                            top: 12,
+                            bottom: 0}}>
+        </View>
         <Text style={styles.title}>Assign Driver</Text>
-        <TextInput style={styles.itemInput} onChange={this.handleChange} />
+        <TextInput style={styles.itemInput} onChange={this.handleChange}
+         placeholder="Name/Bus/Date"
+        />
         <TouchableHighlight
           style={styles.button}
           underlayColor="white"
@@ -68,7 +81,6 @@ export default class AddItem extends Component {
         >
           <Text style={styles.buttonText}>Add</Text>
         </TouchableHighlight>
-      </View>
       </ImageBackground>
     );
   }
@@ -94,14 +106,15 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   itemInput: {
-    height: 50,
-    padding: 4,
-    marginRight: 5,
+    height: 60,
+    padding: 6,
+    marginRight: 7,
     fontSize: 23,
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 8,
-    color: 'white'
+    color: 'black',
+    backgroundColor:'white',
   },
   buttonText: {
     fontSize: 18,
@@ -117,7 +130,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 10,
     marginTop: 10,
-    alignSelf: 'stretch',
+    alignSelf:'stretch',
     justifyContent: 'center'
-  }
+  },
+  imagestyle: {
+    height: 90,
+     width: 90,
+     justifyContent: "center",
+    },
 });

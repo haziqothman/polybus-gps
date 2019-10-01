@@ -2,6 +2,9 @@ import React from 'react';
 import { Text, View,Image,TouchableOpacity,StyleSheet,ImageBackground } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { ScrollView } from 'react-native';
+
+const logo = require('../assets/images/bus-icon.png');
 
 class HomeScreen extends React.Component {
   render() {
@@ -42,9 +45,18 @@ class HomeScreen extends React.Component {
 class SettingsScreen extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Settings!</Text>
+      <ScrollView>
+      <View style={styles.container}>
+        <Text>Version Setting</Text>
+        </View>
+
+      <View>
+      <View style={styles.container2}>
+        <Image source={logo}></Image>
+        <Text>VERSION 1.0.0</Text>
       </View>
+      </View>
+    </ScrollView>
     );
   }
 }
@@ -80,16 +92,35 @@ const styles = StyleSheet.create({
        marginBottom: 10,
        borderRadius: 25,
      },
-     
-       btnTxt: {
+     btnTxt: {
          fontSize: 30,
           textAlign: "center"
-       }
+       },
+       container: {
+        flex: 1,
+        padding: 15,
+        backgroundColor: '#259B9B',
+      },
+      container2: {
+        flex: 1,
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor: '#09F3F3',
+        height: 611,
+        width: 359,
+      },
+      TabNavigator: {
+        fontSize: 30,
+        // color: '#111',
+        // alignSelf: 'center'
+      },
 });
 
 const TabNavigator = createBottomTabNavigator({
-  Home: HomeScreen,
+  Admin: HomeScreen,
   Settings: SettingsScreen,
 });
+
+
 
 export default createAppContainer(TabNavigator);

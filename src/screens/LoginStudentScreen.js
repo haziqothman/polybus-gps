@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput,ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image,ImageBackground } from 'react-native';
 import firebase from 'firebase';
 
 const firebaseConfig = {
@@ -65,6 +65,17 @@ export default class LoginScreen extends Component {
       return (
 
         <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
+          <Image 
+                source = {require('../assets/images/student.png')}
+                 style={{width: 100, height:100}}
+                >
+          </Image>
+          <View style={{position: 'absolute',
+                            left: 20,
+                            right: 0,
+                            top: 12,
+                            bottom: 0}}>
+          </View>
           <Text style={{ fontSize: 30,textAlign: 'center',margin: 10,}}>Student Login</Text> 
           <TextInput
           style={styles.input}
