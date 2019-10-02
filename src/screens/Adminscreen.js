@@ -60,6 +60,7 @@ class SettingsScreen extends React.Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   backgroundcontainer: {
     flex: 1,

@@ -1,5 +1,14 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput,ImageBackground, ActivityIndicator } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  ImageBackground,
+  ActivityIndicator,
+  Image,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'firebase';
 import { getActiveChildNavigationOptions } from 'react-navigation';
@@ -139,9 +148,9 @@ export default class LoginScreen extends Component {
 
         <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
           <Image 
-                source = {require('../assets/images/student.png')}
-                 style={{width: 100, height:100}}
-                >
+            source = {require('../assets/images/student.png')}
+            style={{width: 100, height:100}}
+          >
           </Image>
           <View style={{position: 'absolute',
                             left: 20,
@@ -193,15 +202,13 @@ export default class LoginScreen extends Component {
       btnContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-        width: "90%",
-        
+        width: "90%", 
       },
       userBtn: {
         backgroundColor: "#FFD700",
         padding: 15,
         width: "45%",
         borderRadius: 25,
-        
       },
      btnTxt: {
        fontSize: 18,

@@ -14,6 +14,8 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as firebase from 'firebase';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+
 
 // Config Firebase
 const firebaseConfig = {
@@ -177,11 +179,9 @@ export default class HomeScreen extends Component {
       </Fragment>
     );
   }
-}
-const TabNavigator = createBottomTabNavigator({
-  Location: HomeScreen,
-  DriverInfo: SettingsScreen,
-});
-
-  }
 };
+
+// const TabNavigator = createBottomTabNavigator({
+//   Location: HomeScreen,
+//   DriverInfo: SettingsScreen,
+// });

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput,ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, ImageBackground } from 'react-native';
 import firebase from 'firebase';
 
 const firebaseConfig = {
@@ -19,46 +19,53 @@ if (!firebase.apps.length) {
 
 
 export default class SignUpScreen extends Component {
-  
     static navigationOptions = {
-      title: 'SignUp'
+      title: 'Student Sign Up'
     }
+
     constructor(props) {
       super(props);
-      this.state = {email:'',Password:'',loading:false};
+      this.state = {
+        email: '',
+        Password: '',
+        loading: false,
+      };
     } 
      
-      OnSignUpPress() { 
-        this.setState({error:'',loading:true});
-        const{email, Password} = this.state;
-        firebase.auth().createUserWithEmailAndPassword(email,Password)
-        .then(() => {
-          this.setState({error:'',});
-          this.props.navigation.navigate('login1');
-        })
-        .catch(() =>{
-          this.setState({error:'Authentication Failed',loading:false});
-        })
-       }
+    OnSignUpPress() { 
+      this.setState({error:'',loading:true});
+      const{email, Password} = this.state;
+      firebase.auth().createUserWithEmailAndPassword(email,Password)
+      .then(() => {
+        this.setState({error:'',});
+        this.props.navigation.navigate('login1');
+      })
+      .catch(() =>{
+        this.setState({error:'Authentication Failed',loading:false});
+      })
+    }
 
-       renderButtonOrLoading() {
-         
-         return (
-         <View style ={styles.btnContainer}>
-        <TouchableOpacity
-           style={styles.userBtn}
-           onPress={this.OnSignUpPress.bind(this)}
-           >
-             <Text style={styles.btnTxt}>SignUp</Text>
-           </TouchableOpacity>
-          </View>
-         )
-        }
+    renderButtonOrLoading() {
+      return (
+        <View style ={styles.btnContainer}>
+          <TouchableOpacity
+            style={styles.userBtn}
+            onPress={this.OnSignUpPress.bind(this)}
+          >
+            <Text style={styles.btnTxt}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
     render() {
       return (
-
         <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
-          <Text style={{ fontSize: 30,textAlign: 'center',margin: 10,}}>SIGN UP</Text> 
+          <Image 
+            source = {require('../assets/images/student.png')}
+            style={{width: 100, height:100}}>
+          </Image>
+          <Text style={{ fontSize: 30,textAlign: 'center',margin: 10,}}>Student Sign Up</Text> 
           <TextInput
           style={styles.input}
           value={this.state.email}
@@ -78,14 +85,15 @@ export default class SignUpScreen extends Component {
       );
     }
   }
-  const styles = StyleSheet.create({
-    backgroundcontainer: {
-      flex: 1,
-        height:null,
-        width: null,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
+
+const styles = StyleSheet.create({
+  backgroundcontainer: {
+    flex: 1,
+    height:null,
+    width: null,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   btnContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -93,23 +101,21 @@ export default class SignUpScreen extends Component {
     justifyContent: "center",
     
   },
-   userBtn: {
-     backgroundColor: "#FFD700",
-     padding: 15,
-     width: "45%",
-     borderRadius: 25,
-     
-   },
-     btnTxt: {
-       fontSize: 18,
-        textAlign: "center"
-     },
-     input: {
-       width: "90%",
-       backgroundColor: "#fff",
-       padding: 15,
-       marginBottom: 10,
-       borderRadius: 25,
-     }
-
+  userBtn: {
+    backgroundColor: "#FFD700",
+    padding: 15,
+    width: "45%",
+    borderRadius: 25,
+  },
+  btnTxt: {
+    fontSize: 18,
+      textAlign: "center"
+  },
+  input: {
+    width: "90%",
+    backgroundColor: "#fff",
+    padding: 15,
+    marginBottom: 10,
+    borderRadius: 25,
+  },
 });

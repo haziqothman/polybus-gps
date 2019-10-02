@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput,ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ImageBackground, Image } from 'react-native';
 import firebase from 'firebase';
 
 const firebaseConfig = {
@@ -21,7 +21,7 @@ if (!firebase.apps.length) {
 export default class SignUpScreen extends Component {
   
     static navigationOptions = {
-      title: 'SignUp'
+      title: 'Admin Sign Up'
     }
     constructor(props) {
       super(props);
@@ -37,7 +37,7 @@ export default class SignUpScreen extends Component {
           this.props.navigation.navigate('login');
         })
         .catch(() =>{
-          this.setState({error:'Authentication Failed',loading:false});
+          this.setState({ error:'Authentication Failed', loading:false });
         })
        }
 
@@ -49,16 +49,19 @@ export default class SignUpScreen extends Component {
            style={styles.userBtn}
            onPress={this.OnSignUpPress.bind(this)}
            >
-             <Text style={styles.btnTxt}>SignUp</Text>
+             <Text style={styles.btnTxt}>Sign Up</Text>
            </TouchableOpacity>
           </View>
          )
         }
     render() {
       return (
-
         <ImageBackground source={require('../assets/images/abs.jpg')} style={styles.backgroundcontainer}>
-          <Text style={{ fontSize: 30,textAlign: 'center',margin: 10,}}>SIGN UP</Text> 
+          <Image 
+            source={require('../assets/images/admin.png')}
+            style={{width: 100, height:100}}
+          ></Image>
+          <Text style={{ fontSize: 30,textAlign: 'center',margin: 10,}}>Admin Sign Up</Text> 
           <TextInput
           style={styles.input}
           value={this.state.email}
